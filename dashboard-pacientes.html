@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#315f4e">
+  <title>Pacientes | MedCare</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/dashboard-pacientes.css">
+</head>
+
+<body>
+  <!-- icones compartilhados -->
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <symbol id="person" viewBox="0 0 24 24">
+        <circle cx="12" cy="7" r="4"></circle>
+        <path d="M3 21v-2c0-4 4-6 9-6s9 2 9 6v2Z"></path>
+      </symbol>
+
+      <symbol id="calendar" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+        <path d="M7 3v4M17 3v4M3 10h18"></path>
+      </symbol>
+
+      <symbol id="consultation" viewBox="0 0 24 24">
+        <path d="M4 3v6a5 5 0 0 0 10 0V3M2 3h4M12 3h4"></path>
+        <path d="M9 14v3a5 5 0 0 0 10 0v-4"></path>
+        <circle cx="19" cy="10" r="3"></circle>
+      </symbol>
+
+      <symbol id="exam" viewBox="0 0 24 24">
+        <rect x="5" y="4" width="15" height="18" rx="2"></rect>
+        <rect x="9" y="2" width="7" height="4" rx="1"></rect>
+        <path d="m8 11 2 2 3-3M15 12h2M8 17h9"></path>
+      </symbol>
+
+      <symbol id="settings" viewBox="0 0 24 24">
+        <path d="m10 2 4 0 1 4 4-1 2 4-3 3 3 3-2 4-4-1-1 4h-4l-1-4-4 1-2-4 3-3-3-3 2-4 4 1Z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </symbol>
+
+      <symbol id="exit" viewBox="0 0 24 24">
+        <path d="M14 4H4v16h10M10 12h12M17 7l5 5-5 5"></path>
+      </symbol>
+
+      <symbol id="bell" viewBox="0 0 24 24">
+        <path d="M5 17h14l-2-4V8a5 5 0 0 0-10 0v5ZM10 21h4"></path>
+      </symbol>
+
+      <symbol id="chevron" viewBox="0 0 24 24">
+        <path d="m9 5 7 7-7 7"></path>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- side bar, o menu lateral -->
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="dashboard-pacientes.html" aria-label="MedCare início">
+      <svg class="brand-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <path
+          d="M38 10a8 8 0 0 1 8 8v14h14a8 8 0 0 1 0 16H46v14a8 8 0 0 1-16 0V48H16a8 8 0 0 1 0-16h14V18a8 8 0 0 1 8-8Z"
+          stroke="currentColor"
+          stroke-width="6"
+        />
+        <path d="M51 82c-2-17 8-35 34-38-3 24-15 38-34 38Z" fill="currentColor" />
+        <path
+          d="M43 88c3-13 13-24 30-34"
+          stroke="#315f4e"
+          stroke-width="3"
+          stroke-linecap="round"
+        />
+      </svg>
+
+      <span class="brand-name">Med<span>Care</span></span>
+    </a>
+
+    <nav class="sidebar-nav" aria-label="Menu principal">
+      <a class="nav-item active" href="dashboard-pacientes.html" aria-current="page">
+        <svg class="icon person-icon" aria-hidden="true">
+          <use href="#person"></use>
+        </svg>
+        Pacientes
+      </a>
+
+      <a class="nav-item" href="#module-notice">
+        <svg class="icon" aria-hidden="true">
+          <use href="#calendar"></use>
+        </svg>
+        Agendamentos
+      </a>
+
+      <a class="nav-item" href="#module-notice">
+        <svg class="icon" aria-hidden="true">
+          <use href="#consultation"></use>
+        </svg>
+        Consultas
+      </a>
+
+      <a class="nav-item" href="#module-notice">
+        <svg class="icon" aria-hidden="true">
+          <use href="#exam"></use>
+        </svg>
+        Exames
+      </a>
+
+      <a class="nav-item" href="#module-notice">
+        <svg class="icon" aria-hidden="true">
+          <use href="#settings"></use>
+        </svg>
+        Administração
+      </a>
+    </nav>
+
+    <a class="nav-item logout-link" href="medcare-login.html">
+      <svg class="icon" aria-hidden="true">
+        <use href="#exit"></use>
+      </svg>
+      Sair
+    </a>
+  </aside>
+
+  <div class="main-panel">
+    <header class="topbar">
+      <!-- aqui é pra abrir e fechar a parte de notificações, sem o javascript por enquanto -->
+      <details class="topbar-dropdown">
+        <summary class="notification-trigger" aria-label="Abrir notificações">
+          <svg class="icon" aria-hidden="true">
+            <use href="#bell"></use>
+          </svg>
+          <span class="notification-badge">2</span>
+        </summary>
+
+        <section class="dropdown-panel notification-panel" aria-label="Notificações">
+          <div class="dropdown-heading">
+            <strong>Notificações</strong>
+            <span>2 novas</span>
+          </div>
+
+          <article class="notification-item">
+            <span class="notification-dot"></span>
+            <div>
+              <h2>Consulta agendada</h2>
+              <p>Fernando Bartiele tem um retorno em 05/11 às 14h30.</p>
+              <small>Há 10 minutos</small>
+            </div>
+          </article>
+
+          <article class="notification-item">
+            <span class="notification-dot"></span>
+            <div>
+              <h2>Resultado disponível</h2>
+              <p>O hemograma de Fernando Bartiele está disponível.</p>
+              <small>Há 30 minutos</small>
+            </div>
+          </article>
+
+          <p class="dropdown-footer">Notificações demonstrativas.</p>
+        </section>
+      </details>
+
+      <span class="topbar-divider" aria-hidden="true"></span>
+
+      <details class="topbar-dropdown">
+        <summary class="profile-trigger" aria-label="Abrir opções do perfil">
+          <span class="avatar profile-avatar">JF</span>
+
+          <svg class="icon profile-chevron" aria-hidden="true">
+            <use href="#chevron"></use>
+          </svg>
+        </summary>
+
+        <div class="dropdown-panel profile-panel">
+          <div class="profile-heading">
+            <strong>João Ferreira</strong>
+            <span>Recepcionista</span>
+          </div>
+
+          <a href="#profile-modal" class="dropdown-link">Meu perfil</a>
+          <a href="#settings-modal" class="dropdown-link">Configurações</a>
+          <a href="medcare-login.html" class="dropdown-link logout-option">Sair</a>
+        </div>
+      </details>
+    </header>
+
+    <main class="dashboard-content" id="dashboard">
+      <div class="page-heading">
+        <svg class="icon person-icon heading-icon" aria-hidden="true">
+          <use href="#person"></use>
+        </svg>
+
+        <div>
+          <h1>Pacientes</h1>
+          <p>Cadastre, consulte e gerencie os pacientes do hospital.</p>
+        </div>
+      </div>
+
+      <div class="patient-toolbar">
+        <div class="search-field">
+          <label class="visually-hidden" for="patientSearch">Buscar paciente</label>
+          <input
+            class="form-control"
+            id="patientSearch"
+            type="search"
+            placeholder="Busca disponível em breve"
+            disabled
+          >
+        </div>
+
+        <a class="btn btn-primary btn-new-patient" href="#new-patient">
+          + Novo Paciente
+        </a>
+      </div>
+
+      <div class="patient-layout">
+        <section class="patient-list panel-card" aria-labelledby="listHeading">
+          <h2 class="list-heading" id="listHeading">
+            Lista de Pacientes
+            <span class="patient-count">1</span>
+          </h2>
+
+          <a class="patient-item selected" href="#patientDetails">
+            <span class="avatar list-avatar">FB</span>
+
+            <span class="patient-summary">
+              <strong>Fernando Bartiele</strong>
+              <span>CPF: 123.456.789-00</span>
+              <span>Prontuário: 000123</span>
+            </span>
+
+            <svg class="icon patient-chevron" aria-hidden="true">
+              <use href="#chevron"></use>
+            </svg>
+          </a>
+        </section>
+
+        <article
+          class="patient-details panel-card"
+          id="patientDetails"
+          aria-labelledby="patientName"
+        >
+          <header class="patient-header">
+            <span class="avatar patient-avatar">FB</span>
+
+            <div class="patient-identification">
+              <h2 id="patientName">Fernando Bartiele</h2>
+
+              <div class="patient-meta">
+                <span>Prontuário: 000123</span>
+                <span>CPF: 123.456.789-00</span>
+                <span>Idade: 34 anos</span>
+              </div>
+            </div>
+
+            <a class="btn btn-edit" href="#edit-patient">Editar</a>
+          </header>
+
+          <!-- aqui o radios, pra controlar o conteudo que vai aparecer ao clicar -->
+          <div class="patient-tabs-container">
+            <input
+              class="tab-radio"
+              type="radio"
+              name="patient-tab"
+              id="tab-personal"
+              checked
+            >
+            <input class="tab-radio" type="radio" name="patient-tab" id="tab-history">
+            <input class="tab-radio" type="radio" name="patient-tab" id="tab-consultations">
+            <input class="tab-radio" type="radio" name="patient-tab" id="tab-exams">
+            <input class="tab-radio" type="radio" name="patient-tab" id="tab-appointments">
+
+            <div class="patient-tabs">
+              <label for="tab-personal">Dados Pessoais</label>
+              <label for="tab-history">Histórico</label>
+              <label for="tab-consultations">Consultas</label>
+              <label for="tab-exams">Exames</label>
+              <label for="tab-appointments">Agendamentos</label>
+            </div>
+
+            <div class="tab-panels">
+              <!-- dados pessoais -->
+              <section class="tab-panel personal-panel" aria-label="Dados pessoais">
+                <div class="patient-data">
+                  <section class="data-section">
+                    <h3>Informações Pessoais</h3>
+
+                    <dl class="data-list">
+                      <dt>Nome completo</dt>
+                      <dd>Fernando Bartiele</dd>
+
+                      <dt>CPF</dt>
+                      <dd>123.456.789-00</dd>
+
+                      <dt>Data de Nascimento</dt>
+                      <dd>12/05/1992</dd>
+
+                      <dt>Sexo</dt>
+                      <dd>Masculino</dd>
+
+                      <dt>Telefone</dt>
+                      <dd>(11) 9999-8888</dd>
+
+                      <dt>Email</dt>
+                      <dd>fernandobartiele@gmail.com</dd>
+                    </dl>
+                  </section>
+
+                  <section class="data-section address-section">
+                    <h3>Endereço</h3>
+
+                    <dl class="data-list">
+                      <dt>Rua</dt>
+                      <dd>Av. Paulista, 1900</dd>
+
+                      <dt>Bairro</dt>
+                      <dd>Bela Vista</dd>
+
+                      <dt>Cidade</dt>
+                      <dd>São Paulo</dd>
+
+                      <dt>CEP</dt>
+                      <dd>04536-100</dd>
+                    </dl>
+                  </section>
+                </div>
+              </section>
+
+              <!-- histórico -->
+              <section class="tab-panel history-panel records-section" aria-label="Histórico">
+                <h3 class="section-heading">Histórico do paciente</h3>
+
+                <article class="record-card">
+                  <div class="record-heading">
+                    <h4>Consulta de rotina</h4>
+                    <time datetime="2026-10-15">15/10/2026</time>
+                  </div>
+                  <p>Avaliação com a Dra. Mariana Souza.</p>
+                  <span class="status status-success">Concluída</span>
+                </article>
+
+                <article class="record-card">
+                  <div class="record-heading">
+                    <h4>Cadastro realizado</h4>
+                    <time datetime="2026-10-01">01/10/2026</time>
+                  </div>
+                  <p>Dados pessoais registrados pela recepção.</p>
+                </article>
+              </section>
+
+              <!-- consultas -->
+              <section
+                class="tab-panel consultations-panel records-section"
+                aria-label="Consultas"
+              >
+                <h3 class="section-heading">Consultas</h3>
+
+                <article class="record-card">
+                  <div class="record-heading">
+                    <h4>Clínico geral</h4>
+                    <span class="status status-success">Realizada</span>
+                  </div>
+
+                  <dl class="record-data">
+                    <dt>Profissional</dt>
+                    <dd>Dra. Mariana Souza</dd>
+
+                    <dt>Data</dt>
+                    <dd>15/10/2026 às 10h</dd>
+
+                    <dt>Observações</dt>
+                    <dd>Consulta de rotina. Retorno agendado.</dd>
+                  </dl>
+                </article>
+              </section>
+
+              <!-- exames -->
+              <section class="tab-panel exams-panel records-section" aria-label="Exames">
+                <h3 class="section-heading">Exames</h3>
+
+                <article class="record-card">
+                  <div class="record-heading">
+                    <h4>Hemograma completo</h4>
+                    <span class="status status-success">Disponível</span>
+                  </div>
+
+                  <p>Coleta realizada em 16/10/2026.</p>
+
+                  <a class="record-link" href="#exam-result">
+                    Visualizar resultado
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </article>
+
+                <article class="record-card">
+                  <div class="record-heading">
+                    <h4>Glicemia em jejum</h4>
+                    <span class="status status-warning">Em análise</span>
+                  </div>
+
+                  <p>Coleta realizada em 22/10/2026.</p>
+                </article>
+              </section>
+
+              <!-- agendamentos -->
+              <section
+                class="tab-panel appointments-panel records-section"
+                aria-label="Agendamentos"
+              >
+                <h3 class="section-heading">Próximos agendamentos</h3>
+
+                <article class="record-card">
+                  <div class="record-heading">
+                    <h4>Retorno — Clínico geral</h4>
+                    <span class="status status-info">Confirmado</span>
+                  </div>
+
+                  <dl class="record-data">
+                    <dt>Data e horário</dt>
+                    <dd>05/11/2026 às 14h30</dd>
+
+                    <dt>Profissional</dt>
+                    <dd>Dra. Mariana Souza</dd>
+
+                    <dt>Local</dt>
+                    <dd>Consultório 03</dd>
+                  </dl>
+                </article>
+              </section>
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+  </div>
+
+  <!-- adicionar paciente, inserir ainda extensao com arquivo JS... -->
+  <section class="modal-screen" id="new-patient" aria-labelledby="newPatientTitle">
+    <a class="modal-backdrop" href="#dashboard" aria-label="Fechar formulário"></a>
+
+    <div class="modal-card">
+      <header class="modal-card-header">
+        <div>
+          <h2 id="newPatientTitle">Adicionar paciente</h2>
+          <p>Preencha os dados para o cadastro.</p>
+        </div>
+
+        <a class="close-modal" href="#dashboard" aria-label="Fechar">&times;</a>
+      </header>
+
+      <!-- no botao final ele nao envia, apenas demonstrativo -->
+      <form class="patient-form">
+        <p class="form-notice">
+          Demonstração visual: os dados preenchidos não serão salvos.
+        </p>
+
+        <div class="form-grid">
+          <div class="form-field full-width">
+            <label class="form-label" for="new-name">Nome completo</label>
+            <input class="form-control" id="new-name" name="nome" type="text"
+              autocomplete="name" placeholder="Digite o nome completo">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-cpf">CPF</label>
+            <input class="form-control" id="new-cpf" name="cpf" type="text"
+              inputmode="numeric" placeholder="000.000.000-00">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-birth">Data de nascimento</label>
+            <input class="form-control" id="new-birth" name="nascimento" type="date">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-sex">Sexo</label>
+            <select class="form-select" id="new-sex" name="sexo">
+              <option value="">Selecione</option>
+              <option value="masculino">Masculino</option>
+              <option value="feminino">Feminino</option>
+              <option value="outro">Outro</option>
+              <option value="nao-informado">Não informado</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-phone">Telefone</label>
+            <input class="form-control" id="new-phone" name="telefone" type="tel"
+              autocomplete="tel" placeholder="(11) 99999-9999">
+          </div>
+
+          <div class="form-field full-width">
+            <label class="form-label" for="new-email">Email</label>
+            <input class="form-control" id="new-email" name="email" type="email"
+              autocomplete="email" placeholder="paciente@email.com">
+          </div>
+
+          <div class="form-field full-width">
+            <label class="form-label" for="new-street">Rua e número</label>
+            <input class="form-control" id="new-street" name="rua" type="text"
+              autocomplete="street-address" placeholder="Ex.: Av. Paulista, 1900">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-neighborhood">Bairro</label>
+            <input class="form-control" id="new-neighborhood" name="bairro" type="text">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-city">Cidade</label>
+            <input class="form-control" id="new-city" name="cidade" type="text"
+              autocomplete="address-level2">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-cep">CEP</label>
+            <input class="form-control" id="new-cep" name="cep" type="text"
+              autocomplete="postal-code" placeholder="00000-000">
+          </div>
+        </div>
+
+        <footer class="form-actions">
+          <a class="btn btn-cancel" href="#dashboard">Cancelar</a>
+          <a class="btn btn-primary btn-save" href="#save-notice">
+            Cadastrar paciente
+          </a>
+        </footer>
+      </form>
+    </div>
+  </section>
+
+  <!-- editar o paciente, nao funcional ainda -->
+  <section class="modal-screen" id="edit-patient" aria-labelledby="editPatientTitle">
+    <a class="modal-backdrop" href="#dashboard" aria-label="Fechar edição"></a>
+
+    <div class="modal-card">
+      <header class="modal-card-header">
+        <div>
+          <h2 id="editPatientTitle">Editar paciente</h2>
+          <p>Prontuário: 000123</p>
+        </div>
+
+        <a class="close-modal" href="#dashboard" aria-label="Fechar">&times;</a>
+      </header>
+
+      <form class="patient-form">
+        <p class="form-notice">
+          Demonstração visual: as alterações não serão salvas.
+        </p>
+
+        <div class="form-grid">
+          <div class="form-field full-width">
+            <label class="form-label" for="edit-name">Nome completo</label>
+            <input class="form-control" id="edit-name" name="nome" type="text"
+              value="Fernando Bartiele">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="edit-cpf">CPF</label>
+            <input class="form-control" id="edit-cpf" name="cpf" type="text"
+              value="123.456.789-00">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="edit-birth">Data de nascimento</label>
+            <input class="form-control" id="edit-birth" name="nascimento" type="date"
+              value="1992-05-12">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="edit-sex">Sexo</label>
+            <select class="form-select" id="edit-sex" name="sexo">
+              <option value="masculino" selected>Masculino</option>
+              <option value="feminino">Feminino</option>
+              <option value="outro">Outro</option>
+              <option value="nao-informado">Não informado</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="edit-phone">Telefone</label>
+            <input class="form-control" id="edit-phone" name="telefone" type="tel"
+              value="(11) 9999-8888">
+          </div>
+
+          <div class="form-field full-width">
+            <label class="form-label" for="edit-email">Email</label>
+            <input class="form-control" id="edit-email" name="email" type="email"
+              value="fernandobartiele@gmail.com">
+          </div>
+
+          <div class="form-field full-width">
+            <label class="form-label" for="edit-street">Rua e número</label>
+            <input class="form-control" id="edit-street" name="rua" type="text"
+              value="Av. Paulista, 1900">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="edit-neighborhood">Bairro</label>
+            <input class="form-control" id="edit-neighborhood" name="bairro" type="text"
+              value="Bela Vista">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="edit-city">Cidade</label>
+            <input class="form-control" id="edit-city" name="cidade" type="text"
+              value="São Paulo">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="edit-cep">CEP</label>
+            <input class="form-control" id="edit-cep" name="cep" type="text"
+              value="04536-100">
+          </div>
+        </div>
+
+        <footer class="form-actions">
+          <a class="btn btn-cancel" href="#dashboard">Cancelar</a>
+          <a class="btn btn-primary btn-save" href="#save-notice">Salvar alterações</a>
+        </footer>
+      </form>
+    </div>
+  </section>
+
+  <!-- operfil -->
+  <section class="modal-screen" id="profile-modal" aria-labelledby="profileTitle">
+    <a class="modal-backdrop" href="#dashboard" aria-label="Fechar perfil"></a>
+
+    <div class="modal-card modal-small">
+      <header class="modal-card-header">
+        <h2 id="profileTitle">Meu perfil</h2>
+        <a class="close-modal" href="#dashboard" aria-label="Fechar">&times;</a>
+      </header>
+
+      <div class="modal-card-body">
+        <div class="profile-preview">
+          <span class="avatar patient-avatar">JF</span>
+          <div>
+            <h3>João Ferreira</h3>
+            <p>Recepcionista</p>
+          </div>
+        </div>
+
+        <dl class="profile-data">
+          <dt>Email</dt>
+          <dd>joao.ferreira@medcare.com</dd>
+          <dt>Tipo de acesso</dt>
+          <dd>Recepção</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- configurações, nao funcional ainda -->
+  <section class="modal-screen" id="settings-modal" aria-labelledby="settingsTitle">
+    <a class="modal-backdrop" href="#dashboard" aria-label="Fechar configurações"></a>
+
+    <div class="modal-card modal-small">
+      <header class="modal-card-header">
+        <h2 id="settingsTitle">Configurações</h2>
+        <a class="close-modal" href="#dashboard" aria-label="Fechar">&times;</a>
+      </header>
+
+      <div class="modal-card-body">
+        <p class="form-notice">
+          Preferências demonstrativas. Ainda não são aplicadas ou salvas.
+        </p>
+
+        <label class="preference-option">
+          <span>Notificações de consultas</span>
+          <input type="checkbox" name="avisos_consultas" checked>
+        </label>
+
+        <label class="preference-option">
+          <span>Notificações de exames</span>
+          <input type="checkbox" name="avisos_exames" checked>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- resultado de exame -->
+  <section class="modal-screen" id="exam-result" aria-labelledby="examTitle">
+    <a class="modal-backdrop" href="#dashboard" aria-label="Fechar resultado"></a>
+
+    <div class="modal-card modal-small">
+      <header class="modal-card-header">
+        <h2 id="examTitle">Hemograma completo</h2>
+        <a class="close-modal" href="#dashboard" aria-label="Fechar">&times;</a>
+      </header>
+
+      <div class="modal-card-body">
+        <p><strong>Paciente:</strong> Fernando Bartiele</p>
+        <p><strong>Data da coleta:</strong> 16/10/2026</p>
+        <p class="form-notice">
+          Área reservada para o laudo do exame. O documento será carregado
+          quando o sistema estiver conectado ao backend.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- aviso ao simular salvamento -->
+  <section class="modal-screen" id="save-notice" aria-labelledby="saveTitle">
+    <a class="modal-backdrop" href="#dashboard" aria-label="Fechar aviso"></a>
+
+    <div class="modal-card modal-small">
+      <header class="modal-card-header">
+        <h2 id="saveTitle">Prévia do formulário</h2>
+        <a class="close-modal" href="#dashboard" aria-label="Fechar">&times;</a>
+      </header>
+
+      <div class="modal-card-body">
+        <p>
+          Esta versão demonstra o fluxo da página.
+          Nenhum dado foi cadastrado ou alterado.
+        </p>
+
+        <a class="btn btn-primary btn-save" href="#dashboard">
+          Voltar para pacientes
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- aviso dos módulos que ainda nao foram desenvolvidos -->
+  <section class="modal-screen" id="module-notice" aria-labelledby="moduleTitle">
+    <a class="modal-backdrop" href="#dashboard" aria-label="Fechar aviso"></a>
+
+    <div class="modal-card modal-small">
+      <header class="modal-card-header">
+        <h2 id="moduleTitle">Em desenvolvimento</h2>
+        <a class="close-modal" href="#dashboard" aria-label="Fechar">&times;</a>
+      </header>
+
+      <div class="modal-card-body">
+        <p>Este módulo será disponibilizado nas próximas etapas do projeto.</p>
+        <a class="btn btn-primary btn-save" href="#dashboard">Voltar</a>
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>
